@@ -11,19 +11,19 @@ Node::~Node() {
 }
 
 int Node::getRow() {
-    return row;
+    return this->row;
 }
 
 int Node::getCol() {
-    return col;
+    return this->col;
 }
 
 int Node::getDistanceTraveled() {
-    return dist_traveled;
+    return this->dist_traveled;
 }
 
 void Node::setDistanceTraveled(int dist_traveled) {
-    (*this).dist_traveled = dist_traveled;
+    this->dist_traveled = dist_traveled;
 }
 
 int Node::getEstimatedDist2Goal(Node* goal) {
