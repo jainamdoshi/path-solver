@@ -15,20 +15,20 @@ NodeList::~NodeList() {
 
 NodeList::NodeList(NodeList& other) {
     // TODO
+    for (int index = 0; index < other.getLength(); index++) {
+        nodes[index] = other.getNode(index);
+    }
 }
 
 int NodeList::getLength() {
-    // TODO
     return length;
 }
 
 void NodeList::addElement(Node* newPos) {
-    // TODO
     nodes[length] = new Node(newPos->getRow(), newPos->getCol(), newPos->getDistanceTraveled());
     length++;
 }
 
 Node* NodeList::getNode(int i) {
-    // TODO
     return nodes[i];
 }

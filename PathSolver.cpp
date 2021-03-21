@@ -15,14 +15,16 @@ PathSolver::~PathSolver() {
 
 void PathSolver::forwardSearch(Env env) {
     // TODO 
+
 }
 
 NodeList* PathSolver::getNodesExplored() {
-    //TODO
+    return new NodeList(*nodesExplored);
 }
 
 NodeList* PathSolver::getPath(Env env) {
     // TODO
+    return nullptr;
 }
 
 //-----------------------------
