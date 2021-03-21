@@ -44,6 +44,7 @@ private:
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
 
+    NodeList* openList;
 };
 
 
