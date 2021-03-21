@@ -27,7 +27,11 @@ void Node::setDistanceTraveled(int dist_traveled) {
 }
 
 int Node::getEstimatedDist2Goal(Node* goal) {
-    // TODO
+    return dist_traveled + getManhattanDis(goal->getRow(), goal->getCol());
+}
+
+int Node::getManhattanDis(int row, int col) {
+    return abs(this->col - col) + abs(this->row - row);
 }
 
 //--------------------------------                             

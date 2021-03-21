@@ -3,7 +3,7 @@
 
 #include "Types.h"
 
-class Node{
+class Node {
 public:
     /*                                           */
     /* DO NOT MOFIFY ANY CODE IN THIS SECTION    */
@@ -44,6 +44,7 @@ private:
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
 
+    int getManhattanDis(int row, int col);
 };
 
 #endif //COSC_ASSIGN_ONE_NODE
