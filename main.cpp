@@ -20,7 +20,7 @@ void readEnvStdin(Env env);
 void printEnvStdout(Env env, NodeList* solution);
 
 
-int main(int argc, char** argv){
+int main(int argc, char** argv) {
     // THESE ARE SOME EXAMPLE FUNCTIONS TO HELP TEST YOUR CODE
     // AS YOU WORK ON MILESTONE 2. YOU CAN UPDATE THEM YOURSELF
     // AS YOU GO ALONG.
@@ -33,7 +33,7 @@ int main(int argc, char** argv){
     // Load Environment 
     Env env;
     readEnvStdin(env);
-    
+
     // Solve using forwardSearch
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 2
     PathSolver* pathSolver = new PathSolver();
@@ -54,8 +54,12 @@ int main(int argc, char** argv){
 
 }
 
-void readEnvStdin(Env env){
-    //TODO 
+void readEnvStdin(Env env) {
+    for (int row = ROW_START; row < ENV_DIM; row++) {
+        for (int col = COL_START; col < ENV_DIM; col++) {
+            std::cin >> env[row][col];
+        }
+    }
 }
 
 void printEnvStdout(Env env, NodeList* solution) {
