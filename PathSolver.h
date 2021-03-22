@@ -44,7 +44,12 @@ private:
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
 
+    Node* startNode;
+    Node* endNode;
+
     NodeList* openList;
+
+    void findSandG(Env env);
 };
 
 
