@@ -45,11 +45,14 @@ private:
     /*                                           */
 
     Node* startNode;
-    Node* endNode;
+    Node* goalNode;
 
     NodeList* openList;
 
     void findSandG(Env env);
+    Node* getNodeWithSmallestDistance();
+    bool isNodeInList(NodeList* list, Node* node);
+    void getNextNodes(Env env, Node* currNode);
 };
 
 
