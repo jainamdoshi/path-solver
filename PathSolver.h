@@ -5,6 +5,8 @@
 #include "NodeList.h"
 #include "Types.h"
 
+#define POSSIBLE_NODES_LENGTH 4
+
 class PathSolver {
 public:
     /*                                           */
@@ -53,6 +55,7 @@ private:
     Node* getNodeWithSmallestDistance();
     bool isNodeInList(NodeList* list, Node* node);
     void getNextNodes(Env env, Node* currNode);
+    void checkAndAdd(Node* newNode);
 };
 
 

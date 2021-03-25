@@ -108,44 +108,30 @@ void PathSolver::getNextNodes(Env env, Node* currNode) {
 
     int newDist = currNode->getDistanceTraveled() + 1;
 
-
     if (env[row][col - 1] != SYMBOL_WALL) {
         Node* newNode = new Node(row, col - 1, newDist);
-        if (!isNodeInList(nodesExplored, newNode)) {
-            openList->addElement(newNode);
-        }
-        else {
-            delete newNode;
-        }
+        checkAndAdd(newNode);
     }
     if (env[row - 1][col] != SYMBOL_WALL) {
         Node* newNode = new Node(row - 1, col, newDist);
-        if (!isNodeInList(nodesExplored, newNode)) {
-            openList->addElement(newNode);
-        }
-        else {
-            delete newNode;
-        }
+        checkAndAdd(newNode);
     }
     if (env[row][col + 1] != SYMBOL_WALL) {
         Node* newNode = new Node(row, col + 1, newDist);
-        if (!isNodeInList(nodesExplored, newNode)) {
-            openList->addElement(newNode);
-        }
-        else {
-            delete newNode;
-        }
+        checkAndAdd(newNode);
     }
     if (env[row + 1][col] != SYMBOL_WALL) {
         Node* newNode = new Node(row + 1, col, newDist);
-        if (!isNodeInList(nodesExplored, newNode)) {
-            openList->addElement(newNode);
-        }
-        else {
-            delete newNode;
-        }
+        checkAndAdd(newNode);
     }
 
+}
+
+void PathSolver::checkAndAdd(Node* newNode) {
+    if (!isNodeInList(nodesExplored, newNode)) {
+        openList->addElement(newNode);
+    }
+    delete newNode;
 }
 
 //-----------------------------
