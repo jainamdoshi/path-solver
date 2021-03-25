@@ -15,10 +15,10 @@ NodeList::~NodeList() {
 
 NodeList::NodeList(NodeList& other) {
     // TODO
-    // for (int index = 0; index < other.getLength(); index++) {
-    //     Node* oldNode = other.getNode(index);
-    //     nodes[index] = new Node(oldNode->getRow(), oldNode->getCol(), oldNode->getDistanceTraveled());
-    // }
+    for (int index = 0; index < other.getLength(); index++) {
+        Node* oldNode = other.getNode(index);
+        nodes[index] = new Node(oldNode->getRow(), oldNode->getCol(), oldNode->getDistanceTraveled());
+    }
 }
 
 int NodeList::getLength() {
@@ -29,7 +29,6 @@ void NodeList::addElement(Node* newPos) {
     nodes[length] = new Node(newPos->getRow(),
         newPos->getCol(), newPos->getDistanceTraveled());
     length++;
-    // delete newPos;
 }
 
 Node* NodeList::getNode(int i) {
