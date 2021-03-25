@@ -8,7 +8,9 @@ NodeList::NodeList() {
 
 NodeList::~NodeList() {
     // TODO
+    std::cout << length << std::endl;
     for (int index = 0; index < length; index++) {
+        std::cout << index << std::endl;
         delete nodes[index];
     }
 }
@@ -25,8 +27,10 @@ int NodeList::getLength() {
 }
 
 void NodeList::addElement(Node* newPos) {
-    nodes[length] = new Node(newPos->getRow(), newPos->getCol(), newPos->getDistanceTraveled());
+    nodes[length] = new Node(newPos->getRow(),
+        newPos->getCol(), newPos->getDistanceTraveled());
     length++;
+    delete newPos;
 }
 
 Node* NodeList::getNode(int i) {
