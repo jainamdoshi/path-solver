@@ -29,7 +29,8 @@ public:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
-
+    Node(Node& other);
+    int getManhattanDis(int row, int col);
 
 private:
     /*                                           */
@@ -44,7 +45,7 @@ private:
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
 
-    int getManhattanDis(int row, int col);
+
 };
 
 #endif //COSC_ASSIGN_ONE_NODE

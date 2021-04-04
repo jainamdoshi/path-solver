@@ -56,6 +56,7 @@ private:
     bool isNodeInList(NodeList* list, Node* node);
     void getNextNodes(Env env, Node* currNode);
     void checkAndAdd(Node* newNode);
+    bool isSameNodes(Node* node, Node* otherNode);
 };
 
 

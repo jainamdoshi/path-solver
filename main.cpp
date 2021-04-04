@@ -46,6 +46,11 @@ int main(int argc, char** argv) {
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 3
     NodeList* solution = pathSolver->getPath(env);
 
+    // std::cout << "===================" << std::endl;
+    // for (int i = 0; i < solution->getLength(); i++) {
+    //     std::cout << solution->getNode(i)->getRow() << " " << solution->getNode(i)->getCol() << " " << solution->getNode(i)->getDistanceTraveled() << std::endl;
+    // }
+
     printEnvStdout(env, solution);
 
     delete pathSolver;
@@ -63,7 +68,42 @@ void readEnvStdin(Env env) {
 }
 
 void printEnvStdout(Env env, NodeList* solution) {
-    //TODO
+
+    Node* prevNode = solution->getNode(1);
+    int prevRow = prevNode->getRow();
+    int prevCol = prevNode->getCol();
+
+    for (int index = 2; index < solution->getLength(); index++) {
+        Node* currNode = solution->getNode(index);
+        int currRow = currNode->getRow();
+        int currCol = currNode->getCol();
+
+        if (prevRow == currRow && prevCol - currCol == 1) {
+            env[prevRow][prevCol] = '<';
+        }
+        else if (prevRow == currRow && prevCol - currCol == -1) {
+            env[prevRow][prevCol] = '>';
+        }
+        else if (prevCol == currCol && prevRow - currRow == 1) {
+            env[prevRow][prevCol] = '^';
+        }
+        else {
+            env[prevRow][prevCol] = 'V';
+        }
+
+        prevRow = currRow;
+        prevCol = currCol;
+    }
+
+
+    for (int row = ROW_START; row < ENV_DIM; row++) {
+        for (int col = COL_START; col < ENV_DIM; col++) {
+            std::cout << env[row][col];
+        }
+        std::cout << std::endl;
+    }
+
+
 }
 
 void testNode() {

@@ -15,6 +15,11 @@ PathSolver::~PathSolver() {
     delete goalNode;
 }
 
+bool PathSolver::isSameNodes(Node* node, Node* otherNode) {
+    return node->getRow() == otherNode->getRow() &&
+        node->getCol() == otherNode->getCol();
+}
+
 void PathSolver::forwardSearch(Env env) {
     // TODO 
     findSandG(env);
@@ -23,11 +28,8 @@ void PathSolver::forwardSearch(Env env) {
     Node* currNode = nullptr;
 
     currNode = getNodeWithSmallestDistance();
-    while (currNode->getRow() != goalNode->getRow() || currNode->getCol() != goalNode->getCol()) {
+    while (!isSameNodes(currNode, goalNode)) {
 
-        // std::cout << currNode->getRow() << currNode->getCol() << std::endl;
-
-        // NodeList* nextNodeList = new NodeList();
         getNextNodes(env, currNode);
         nodesExplored->addElement(currNode);
 
@@ -37,13 +39,9 @@ void PathSolver::forwardSearch(Env env) {
     goalNode->setDistanceTraveled(currNode->getDistanceTraveled());
     nodesExplored->addElement(goalNode);
 
-    for (int i = 0; i < nodesExplored->getLength(); i++) {
-        std::cout << nodesExplored->getNode(i)->getRow() << " " << nodesExplored->getNode(i)->getCol() << " " << nodesExplored->getNode(i)->getDistanceTraveled() << std::endl;
-    }
-
-
-    // std::cout << startNode->getRow() << std::endl;
-    // std::cout << goalNode->getRow() << std::endl;
+    // for (int i = 0; i < nodesExplored->getLength(); i++) {
+    //     std::cout << nodesExplored->getNode(i)->getRow() << " " << nodesExplored->getNode(i)->getCol() << " " << nodesExplored->getNode(i)->getDistanceTraveled() << std::endl;
+    // }
 
 }
 
@@ -52,8 +50,34 @@ NodeList* PathSolver::getNodesExplored() {
 }
 
 NodeList* PathSolver::getPath(Env env) {
-    // TODO
-    return nullptr;
+    NodeList* shortPathNodes = new NodeList();
+
+    Node* tempNode = nodesExplored->getNode(nodesExplored->getLength() - 1);
+    Node* currNode = new Node(tempNode->getRow(), tempNode->getCol(), tempNode->getDistanceTraveled());
+    shortPathNodes->addElement(currNode);
+
+    while (!isSameNodes(currNode, startNode)) {
+        bool found = false;
+        for (int index = nodesExplored->getLength() - shortPathNodes->getLength(); index >= 0 && !found; index--) {
+            Node* node = nodesExplored->getNode(index);
+            if (currNode->getDistanceTraveled() - node->getDistanceTraveled() == 1 && currNode->getManhattanDis(node->getRow(), node->getCol()) == 1) {
+                node = new Node(node->getRow(), node->getCol(), node->getDistanceTraveled());
+                shortPathNodes->addElement(node);
+                currNode = node;
+                found = true;
+            }
+        }
+    }
+
+    NodeList* result = new NodeList();
+
+    for (int index = shortPathNodes->getLength() - 1; index >= 0; index--) {
+        result->addElement(shortPathNodes->getNode(index));
+    }
+
+    delete shortPathNodes;
+
+    return result;
 }
 
 void PathSolver::findSandG(Env env) {
