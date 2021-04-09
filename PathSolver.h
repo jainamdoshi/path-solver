@@ -33,6 +33,7 @@ public:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
+    void setEnvDim(int rows, int cols);
 
 private:
     /*                                           */
@@ -48,6 +49,8 @@ private:
 
     Node* startNode;
     Node* goalNode;
+    int envRows;
+    int envCols;
 
     NodeList* openList;
 

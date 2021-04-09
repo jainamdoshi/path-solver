@@ -1,16 +1,18 @@
-#include "PathSolver.h"
+#include "PathSolver.h" 
 #include <iostream>
 
 PathSolver::PathSolver() {
     // TODO
-    nodesExplored = new NodeList();
-    openList = new NodeList();
+    // nodesExplored = nullptr;
+    // startNode = nullptr;
+    // goalNode = nullptr;
+    // openList = new NodeList();
 }
 
 PathSolver::~PathSolver() {
-    // TODO
+    // TODOz
     delete nodesExplored;
-    delete openList;
+    // delete openList;
     delete startNode;
     delete goalNode;
 }
@@ -21,8 +23,16 @@ bool PathSolver::isSameNodes(Node* node, Node* otherNode) {
 }
 
 void PathSolver::forwardSearch(Env env) {
-    // TODO 
+    // TODO
+
+    openList = new NodeList(4 * envRows * envCols);
+    nodesExplored = new NodeList(4 * envRows * envCols);
+
+    startNode = nullptr;
+    goalNode = nullptr;
+
     findSandG(env);
+
 
     openList->addElement(startNode);
     Node* currNode = nullptr;
@@ -39,9 +49,8 @@ void PathSolver::forwardSearch(Env env) {
     goalNode->setDistanceTraveled(currNode->getDistanceTraveled());
     nodesExplored->addElement(goalNode);
 
-    // for (int i = 0; i < nodesExplored->getLength(); i++) {
-    //     std::cout << nodesExplored->getNode(i)->getRow() << " " << nodesExplored->getNode(i)->getCol() << " " << nodesExplored->getNode(i)->getDistanceTraveled() << std::endl;
-    // }
+
+    delete openList;
 
 }
 
@@ -50,10 +59,9 @@ NodeList* PathSolver::getNodesExplored() {
 }
 
 NodeList* PathSolver::getPath(Env env) {
-    NodeList* shortPathNodes = new NodeList();
+    NodeList* shortPathNodes = new NodeList(4 * envRows * envCols);
 
-    Node* tempNode = nodesExplored->getNode(nodesExplored->getLength() - 1);
-    Node* currNode = new Node(tempNode->getRow(), tempNode->getCol(), tempNode->getDistanceTraveled());
+    Node* currNode = nodesExplored->getNode(nodesExplored->getLength() - 1);
     shortPathNodes->addElement(currNode);
 
     while (!isSameNodes(currNode, startNode)) {
@@ -61,7 +69,6 @@ NodeList* PathSolver::getPath(Env env) {
         for (int index = nodesExplored->getLength() - shortPathNodes->getLength(); index >= 0 && !found; index--) {
             Node* node = nodesExplored->getNode(index);
             if (currNode->getDistanceTraveled() - node->getDistanceTraveled() == 1 && currNode->getManhattanDis(node->getRow(), node->getCol()) == 1) {
-                node = new Node(node->getRow(), node->getCol(), node->getDistanceTraveled());
                 shortPathNodes->addElement(node);
                 currNode = node;
                 found = true;
@@ -69,7 +76,7 @@ NodeList* PathSolver::getPath(Env env) {
         }
     }
 
-    NodeList* result = new NodeList();
+    NodeList* result = new NodeList(4 * envRows * envCols);
 
     for (int index = shortPathNodes->getLength() - 1; index >= 0; index--) {
         result->addElement(shortPathNodes->getNode(index));
@@ -80,9 +87,14 @@ NodeList* PathSolver::getPath(Env env) {
     return result;
 }
 
+void PathSolver::setEnvDim(int rows, int cols) {
+    envRows = rows;
+    envCols = cols;
+}
+
 void PathSolver::findSandG(Env env) {
-    for (int row = ROW_START; row < ENV_DIM && (!startNode || !goalNode); row++) {
-        for (int col = COL_START; col < ENV_DIM && (!startNode || !goalNode); col++) {
+    for (int row = ROW_START; row < envRows && (!startNode || !goalNode); row++) {
+        for (int col = COL_START; col < envCols && (!startNode || !goalNode); col++) {
             if (env[row][col] == SYMBOL_START) {
                 startNode = new Node(row, col, 0);
             }
@@ -99,6 +111,7 @@ Node* PathSolver::getNodeWithSmallestDistance() {
 
     for (int index = 0; index < openList->getLength(); index++) {
         Node* currNode = openList->getNode(index);
+
         if (!isNodeInList(nodesExplored, currNode) && (!node ||
             currNode->getEstimatedDist2Goal(goalNode) <
             node->getEstimatedDist2Goal(goalNode))) {
@@ -107,7 +120,6 @@ Node* PathSolver::getNodeWithSmallestDistance() {
             node = currNode;
         }
     }
-
     return node;
 }
 

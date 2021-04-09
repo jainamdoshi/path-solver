@@ -7,18 +7,24 @@
 #include "Node.h"
 #include "NodeList.h"
 #include "PathSolver.h"
+// #include "milestone4.h"
 
 // Helper test functions
 void testNode();
 void testNodeList();
 
 // Read a environment from standard input.
-void readEnvStdin(Env env);
+Env readEnvStdin(Env env, int* currentRow, int* currentCol);
 
 // Print out a Environment to standard output with path.
 // To be implemented for Milestone 3
-void printEnvStdout(Env env, NodeList* solution);
+void printEnvStdout(Env env, NodeList* solution, int rows, int cols);
 
+Env make_env(const int rows, const int cols);
+void delete_env(Env env, int rows, int cols);
+Env copyChars(Env oldEnv, Env newEnv, int rows, int cols);
+Env readCols(Env env, int* currentRow, int* currentCol);
+Env readRows(Env env, int* currentRow, int totalCols);
 
 int main(int argc, char** argv) {
     // THESE ARE SOME EXAMPLE FUNCTIONS TO HELP TEST YOUR CODE
@@ -31,13 +37,23 @@ int main(int argc, char** argv) {
     // std::cout << "DONE TESTING" << std::endl << std::endl;
 
     // Load Environment 
-    Env env;
-    readEnvStdin(env);
+
+    int* currentRow = new int(0);
+    int* currentCol = new int(0);
+    // Env env = make_env(*currentRow, *currentCol);
+    Env env = make_env(*currentRow, *currentCol);
+
+    env = readEnvStdin(env, currentRow, currentCol);
+
 
     // Solve using forwardSearch
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 2
+
+
     PathSolver* pathSolver = new PathSolver();
+    pathSolver->setEnvDim(*currentRow, *currentCol);
     pathSolver->forwardSearch(env);
+
 
     NodeList* exploredPositions = nullptr;
     exploredPositions = pathSolver->getNodesExplored();
@@ -46,28 +62,117 @@ int main(int argc, char** argv) {
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 3
     NodeList* solution = pathSolver->getPath(env);
 
-    // std::cout << "===================" << std::endl;
-    // for (int i = 0; i < solution->getLength(); i++) {
-    //     std::cout << solution->getNode(i)->getRow() << " " << solution->getNode(i)->getCol() << " " << solution->getNode(i)->getDistanceTraveled() << std::endl;
-    // }
-
-    printEnvStdout(env, solution);
-
+    printEnvStdout(env, solution, *currentRow, *currentCol);
     delete pathSolver;
     delete exploredPositions;
     delete solution;
+    delete_env(env, *currentRow, *currentCol);
+    delete currentRow;
+    delete currentCol;
 
 }
 
-void readEnvStdin(Env env) {
-    for (int row = ROW_START; row < ENV_DIM; row++) {
-        for (int col = COL_START; col < ENV_DIM; col++) {
-            std::cin >> env[row][col];
+Env readEnvStdin(Env env, int* currentRow, int* currentCol) {
+
+    env = readCols(env, currentRow, currentCol);
+    env = readRows(env, currentRow, *currentCol);
+    return env;
+}
+
+Env readRows(Env env, int* currentRow, int totalCols) {
+    int currentCol = totalCols;
+    char newChar;
+
+    while (!std::cin.eof()) {
+
+        std::cin.get(newChar);
+
+        if (!std::cin.eof() && newChar != '\n') {
+
+            if (currentCol == totalCols) {
+                (*currentRow)++;
+                currentCol = 0;
+
+                Env newEnv = make_env(*currentRow + 1, totalCols);
+                newEnv = copyChars(env, newEnv, *currentRow, totalCols);
+                delete_env(env, *currentRow, totalCols);
+                env = newEnv;
+            }
+            env[*currentRow][currentCol] = newChar;
+            currentCol++;
         }
     }
+    (*currentRow)++;
+    return env;
 }
 
-void printEnvStdout(Env env, NodeList* solution) {
+
+Env readCols(Env env, int* currentRow, int* currentCol) {
+    bool newLineCharFound = false;
+    char newChar;
+
+    while (!newLineCharFound) {
+
+        std::cin.get(newChar);
+
+        if (newChar == '\n') {
+            newLineCharFound = true;
+        }
+        else {
+
+            Env newEnv = make_env(*currentRow + 1, *currentCol + 1);
+            newEnv = copyChars(env, newEnv, *currentRow + 1, *currentCol);
+            delete_env(env, *currentRow + 1, *currentCol);
+            env = newEnv;
+            env[*currentRow][*currentCol] = newChar;
+            (*currentCol)++;
+        }
+    }
+    return env;
+}
+
+Env copyChars(Env oldEnv, Env newEnv, int rows, int cols) {
+    // std::cout << "Copy " << rows << " " << cols << std::endl;
+    for (int row = 0; row < rows; row++) {
+        for (int col = 0; col < cols; col++) {
+            // std::cout << "Envv " << oldEnv[row][col] << std::endl;
+            // std::cout << "Innn " << row << " " << col << std::endl;
+
+            newEnv[row][col] = oldEnv[row][col];
+        }
+    }
+    return newEnv;
+}
+
+Env make_env(const int rows, const int cols) {
+    Env env = nullptr;
+
+    // std::cout << "Make " << rows << " " << cols << std::endl;
+
+    if (rows >= 0 && cols >= 0) {
+        env = new char* [rows];
+        for (int i = 0; i < rows; i++) {
+            env[i] = new char[cols];
+        }
+    }
+
+    return env;
+}
+
+void delete_env(Env env, int rows, int cols) {
+    // std::cout << "Delete " << rows << " " << cols << std::endl;
+
+    if (rows >= 0 && cols >= 0) {
+        for (int i = 0; i < rows; i++) {
+            delete env[i];
+        }
+        delete env;
+    }
+
+    return;
+}
+
+void printEnvStdout(Env env, NodeList* solution, int rows, int cols) {
 
     Node* prevNode = solution->getNode(1);
     int prevRow = prevNode->getRow();
@@ -96,8 +201,8 @@ void printEnvStdout(Env env, NodeList* solution) {
     }
 
 
-    for (int row = ROW_START; row < ENV_DIM; row++) {
-        for (int col = COL_START; col < ENV_DIM; col++) {
+    for (int row = ROW_START; row < rows; row++) {
+        for (int col = COL_START; col < cols; col++) {
             std::cout << env[row][col];
         }
         std::cout << std::endl;
