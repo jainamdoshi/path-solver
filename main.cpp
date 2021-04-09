@@ -45,7 +45,6 @@ int main(int argc, char** argv) {
 
     env = readEnvStdin(env, currentRow, currentCol);
 
-
     // Solve using forwardSearch
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 2
 
@@ -61,6 +60,7 @@ int main(int argc, char** argv) {
     // Get the path
     // THIS WILL ONLY WORK IF YOU'VE FINISHED MILESTONE 3
     NodeList* solution = pathSolver->getPath(env);
+
 
     printEnvStdout(env, solution, *currentRow, *currentCol);
     delete pathSolver;
@@ -166,7 +166,7 @@ void delete_env(Env env, int rows, int cols) {
         for (int i = 0; i < rows; i++) {
             delete env[i];
         }
-        delete env;
+        delete[] env;
     }
 
     return;

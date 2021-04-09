@@ -26,6 +26,7 @@ NodeList::NodeList(NodeList& other) {
 NodeList::NodeList(int length) {
     envDim = length;
     nodes = new Node * [length];
+    this->length = 0;
 
     // for (int i = 0; i < length; i++) {
     //     nodes[i] = nullptr;

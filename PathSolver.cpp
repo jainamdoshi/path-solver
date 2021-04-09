@@ -49,7 +49,6 @@ void PathSolver::forwardSearch(Env env) {
     goalNode->setDistanceTraveled(currNode->getDistanceTraveled());
     nodesExplored->addElement(goalNode);
 
-
     delete openList;
 
 }
@@ -81,7 +80,6 @@ NodeList* PathSolver::getPath(Env env) {
     for (int index = shortPathNodes->getLength() - 1; index >= 0; index--) {
         result->addElement(shortPathNodes->getNode(index));
     }
-
     delete shortPathNodes;
 
     return result;
