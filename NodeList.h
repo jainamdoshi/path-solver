@@ -31,7 +31,10 @@ public:
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
 
+    // Over load constructor with the length of the array as a param
     NodeList(int length);
+
+    // returns a the Environment dimension
     int getEnvDim();
 
 
@@ -50,6 +53,8 @@ private:
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
+
+    // Environment dimension
     int envDim;
 };
 

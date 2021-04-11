@@ -6,16 +6,20 @@ NodeList::NodeList() {
 }
 
 NodeList::~NodeList() {
-    // std::cout << "NodeList des: " << this->length << std::endl;
+
+    // Freeing up the memory of all the nodes from the list
     for (int index = 0; index < length; index++) {
-        // std::cout << nodes[index]. << std::endl;
         delete nodes[index];
     }
+
+    // Freeing up the memory of the list itself
     delete[] nodes;
 }
 
 NodeList::NodeList(NodeList& other) {
     nodes = new Node * [other.getEnvDim()];
+
+    // Deep coping all the nodes from the other list to the new list (this)
     for (int index = 0; index < other.getLength(); index++) {
         Node* oldNode = other.getNode(index);
         nodes[index] = new Node(*oldNode);
@@ -24,15 +28,9 @@ NodeList::NodeList(NodeList& other) {
 }
 
 NodeList::NodeList(int length) {
-    envDim = length;
     nodes = new Node * [length];
+    envDim = length;
     this->length = 0;
-
-    // for (int i = 0; i < length; i++) {
-    //     nodes[i] = nullptr;
-    // }
-
-
 }
 
 int NodeList::getEnvDim() {
