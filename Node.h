@@ -23,13 +23,18 @@ public:
     int getDistanceTraveled();
     void setDistanceTraveled(int dist_traveled);
 
-    //getter for estimated dist to goal - need to return -> Manhatten distance + distance traveled
+    //getter for estimated dist to goal - 
+    // need to return -> Manhatten distance + distance traveled
     int getEstimatedDist2Goal(Node* goal);
 
     /*                                           */
     /* YOU MAY ADD YOUR MODIFICATIONS HERE       */
     /*                                           */
+
+    // Copy constructor
     Node(Node& other);
+
+    // Returns a Manhattan distance between two nodes
     int getManhattanDis(int row, int col);
 
 private:

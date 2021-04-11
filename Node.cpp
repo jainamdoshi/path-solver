@@ -3,7 +3,6 @@
 
 
 Node::Node(int row, int col, int dist_traveled) {
-    // TODO
     this->row = row;
     this->col = col;
     this->dist_traveled = dist_traveled;
@@ -16,7 +15,6 @@ Node::Node(Node& other) {
 }
 
 Node::~Node() {
-    // TODO
 }
 
 int Node::getRow() {
